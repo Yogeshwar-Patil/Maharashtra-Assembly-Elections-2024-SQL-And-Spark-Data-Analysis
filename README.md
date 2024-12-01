@@ -2,7 +2,7 @@
 
 Dataset Link : https://data.opencity.in/dataset/maharashtra-assembly-elections-2024
 
-##Questions
+## Questions
 
 1.	Count the Total Constituencies: Find the total number of constituencies (AC_No) in the dataset
 2.	List All Parties: Retrieve a distinct list of all parties (party) in the dataset.
