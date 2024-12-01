@@ -1,6 +1,19 @@
 # Maharashtra-Assembly-Elections-2024-SQL-And-Spark-Data-Analysis
 
+## Context of the Data
+This dataset reflects the results of the 2024 Maharashtra Assembly Elections, which determine the members of the legislative assembly (MLAs) in the state.
+
 ### Dataset Link : https://data.opencity.in/dataset/maharashtra-assembly-elections-2024
+
+### Columns:
+Constituency_Number (Integer): The unique identifier for each constituency.
+Constituency_Name (String): The name of the constituency.
+Party (String): The political party of the candidate.
+Candidate_Name (String): The name of the candidate.
+Total_Votes (Integer): Total votes received by the candidate.
+Postal_Votes (Integer): Votes received via postal ballots.
+EVM_Votes (Integer): Votes received via electronic voting machines.
+Vote_Share_in_Percent (Float): Percentage of total votes received by the candidate.
 
 ## Questions
 
