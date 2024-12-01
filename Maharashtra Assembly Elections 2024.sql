@@ -40,10 +40,12 @@ select
 from cte
 where rnk = 1;
 
+
 -- 4.	Average Vote Share: Calculate the average Vote_Share_in_percent across all candidates.
 select 
 	round(avg(Vote_Share_in_percent),2) as average_vote_share_in_percent 
 from maha_results_2024;
+
 
 -- 5.	Total Postal Votes by Party: Summarize the total Postal_Votes for each party.
 select 
@@ -72,9 +74,11 @@ select
 	party
 from cte
 where rnk = 1;
-	
+
+
 -- 7.	Votes from EVM: Show the total EVM_Votes cast across all constituencies.
 select sum(EVM_Votes) as total_EVM_votes from maha_results_2024;
+
 
 -- 8.	Vote Share Above 50%: List candidates who have a Vote_Share_in_percent greater than 50.
 select  
@@ -86,12 +90,14 @@ select
 from maha_results_2024
 where Vote_Share_in_percent > 50;
 
+
 -- 9.	Constituencies with No Postal Votes: Find constituencies where Postal_Votes are zero.
 select 
 	distinct constituency_no, 
 	constituency_name  
 from maha_results_2024 
 where Postal_Votes = 0;
+
 
 -- 10.	Count Candidates per Party: Display the total number of candidates for each party.
 select 
@@ -110,6 +116,7 @@ from maha_results_2024 mr
 group by party
 order by total_votes desc
 limit 3;
+
 
 -- 12. for each party from total_no_of_candidates how many candidates are won ?
 WITH candidate_ranks AS (
@@ -130,22 +137,29 @@ FROM candidate_ranks
 GROUP BY party
 ORDER BY no_of_winning_candidates DESC;
 
+
 -- 13.	Constituencies with Closest Margins: Find constituencies where the difference in Total_Votes between the top two candidates is less than 100.
 
 with cte as (
 	select 
-		constituency_no, constituency_name, candidate_name, party, total_votes,
-		row_number() over(partition by constituency_no, constituency_name order by total_votes desc) as rn
+		constituency_no, 
+		constituency_name, 
+		candidate_name, 
+		party, 
+		total_votes,
+		row_number() over(partition by constituency_no, constituency_name order by total_votes desc) as rnk
 	from maha_results_2024 
 )
 select 
-	c1.constituency_no, c1.constituency_name, c1.candidate_name, c1.party, c1.total_votes, c1.rn, c2.candidate_name, c2.party, c2.total_votes, c2.rn
+	c1.constituency_no, c1.constituency_name, c1.candidate_name, c1.party, c1.total_votes, c1.rn, 
+	c2.candidate_name, c2.party, c2.total_votes, c2.rnk
 from cte c1
-join cte c2 on c1.constituency_no = c2.constituency_no and c1.rn = 1 and c2.rn = 2
+join cte c2 on c1.constituency_no = c2.constituency_no and c1.rnk = 1 and c2.rnk = 2
 where c1.total_votes - c2.total_votes < 100;
 
--- 14.	Winning Margin for Each Constituency:
--- Calculate the winning margin (difference in votes) for each constituency.
+
+-- 14.	Winning Margin for Each Constituency: Calculate the winning margin (difference in votes) for each constituency.
+
 WITH RankedResults AS (
     SELECT 
         constituency_no,
@@ -162,8 +176,8 @@ SELECT
 FROM RankedResults
 GROUP BY constituency_no, constituency_name;
 
--- 15.	Highest Vote Share by Prty:
--- Identify the constituency and candidate where each party received its highest Vote_Share_in_percent.
+
+-- 15.	Highest Vote Share by Prty: Identify the constituency and candidate where each party received its highest Vote_Share_in_percent.
 
 select 
 	party, 
@@ -174,8 +188,7 @@ from maha_results_2024
 group by party, constituency_name, candidate_name ;
 
 
--- 16.	Votes Percentage in Top 3 Constituencies:
--- For the top 3 constituencies with the highest total votes, calculate each candidate's percentage share of votes.
+-- 16.	Votes Percentage in Top 3 Constituencies: For the top 3 constituencies with the highest total votes, calculate each candidate's percentage share of votes.
 
 with top_3_constituencies as (
 	select 
@@ -197,8 +210,7 @@ from maha_results_2024 mr
 join top_3_constituencies tc on mr.constituency_no = tc.constituency_no;
 
 
---	17.	Party-Wise Vote Share Distribution:
---	Calculate the average Vote_Share_in_percent for each party.
+-- 17.	Party-Wise Vote Share Distribution: Calculate the average Vote_Share_in_percent for each party.
 
 select 
 	party,
@@ -207,8 +219,7 @@ from maha_results_2024
 group by party;
 
 
---	18.	Identify Constituencies with Most Candidates:
---	Find the constituencies with the highest number of candidates.
+-- 18.	Identify Constituencies with Most Candidates: Find the constituencies with the highest number of candidates.
 
 select 
 	constituency_no , constituency_name ,
@@ -218,8 +229,7 @@ group by constituency_no , constituency_name
 order by candidates_count desc;
 
 
---	19.	Postal Votes Contribution by Party:
---	Calculate the percentage contribution of Postal_Votes for each party.
+-- 19.	Postal Votes Contribution by Party: Calculate the percentage contribution of Postal_Votes for each party.
 
 select 
 	party,
@@ -229,8 +239,7 @@ group by party
 order by contribution_of_postal_votes desc;
 
 
---	20.	Filter Constituencies by Party Performance:
---	List constituencies where a specific party won (e.g., party = 'XYZ').
+-- 20.	Filter Constituencies by Party Performance: List constituencies where a specific party won (e.g., party = 'XYZ').
 
 select 
 	constituency_no, 
@@ -241,8 +250,7 @@ from maha_results_2024 r1
 where total_votes = (select max(total_votes) from maha_results_2024 r2 where r1.constituency_no = r2.constituency_no);
 
 
---	21.	Party-Wise Top Performers:
---	Identify the top-performing candidate for each party.
+-- 21.	Party-Wise Top Performers: Identify the top-performing candidate for each party.
 
 select 
 	party,
