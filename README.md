@@ -13,7 +13,7 @@ This dataset reflects the results of the **2024 Maharashtra Assembly Elections**
 - **EVM_Votes** (Integer): Votes received via electronic voting machines.
 - **Vote_Share_in_Percent** (Float): Percentage of total votes received by the candidate.
 
-### Dataset Link : https://data.opencity.in/dataset/maharashtra-assembly-elections-2024
+### Dataset Link : https://data.opencity.in/dataset/maharashtra-assembly-elections-2024-results
 
 ## Questions
 
