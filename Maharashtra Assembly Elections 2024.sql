@@ -2,19 +2,14 @@
 -- SQL Data Analysis
 
 --	Data Cleaning
+-- Renaming Columns for better understanding
 
 ALTER TABLE maha_results_2024 RENAME COLUMN "AC_No" TO Constituency_No;
-
 ALTER TABLE maha_results_2024 RENAME COLUMN "AC_Name" TO Constituency_Name;
-
 ALTER TABLE maha_results_2024 RENAME COLUMN "Sl_no" TO serial_no;
-
 ALTER TABLE maha_results_2024 RENAME COLUMN "candidate" TO candidate_name;
-
 ALTER TABLE maha_results_2024 RENAME COLUMN "EVM_Votes" TO EVM_Votes;
-
 ALTER TABLE maha_results_2024 RENAME COLUMN "Total_Votes" TO total_votes;
-
 ALTER TABLE maha_results_2024 RENAME COLUMN "Vote_Share_in_percent" TO Vote_Share_in_percent;
 
 -- 1.	Count the Total Constituencies: Find the total number of constituencies in the dataset
