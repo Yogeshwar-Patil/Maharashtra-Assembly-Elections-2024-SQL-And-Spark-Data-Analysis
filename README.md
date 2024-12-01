@@ -3,6 +3,7 @@
 ## Context of the Data
 This dataset reflects the results of the **2024 Maharashtra Assembly Elections**, which determine the members of the legislative assembly (MLAs) in the state.
 
+**Columns:**
 - **Constituency_Number** (Integer): The unique identifier for each constituency.
 - **Constituency_Name** (String): The name of the constituency.
 - **Party** (String): The political party of the candidate.
