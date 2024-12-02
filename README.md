@@ -41,5 +41,3 @@ This dataset reflects the results of the **2024 Maharashtra Assembly Elections**
 22. **Proportional Representation by Votes**: Calculate the vote share of each party across all constituencies.  
 23. **Swing Analysis Between Parties**: Compare the vote difference between the top two parties in each constituency.  
 24. **Overall Turnout Analysis**: Determine the total voter turnout (EVM_Votes + Postal_Votes) by constituency.  
-25. **Identify Dominant Parties Per Region**: Find regions (group of constituencies) dominated by a single party.
-
