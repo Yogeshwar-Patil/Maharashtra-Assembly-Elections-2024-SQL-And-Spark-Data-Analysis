@@ -278,3 +278,44 @@ from maha_results_2024 r1
 join cte c on r1.party = c.party
 where r1.total_votes = votes
 order by total_votes desc;
+
+-- 22. Proportional Representation by Votes:
+-- Calculate the vote share of each party across all constituencies.
+
+select 
+	party,
+	round(sum(total_votes) * 100 / (select sum(total_votes) from maha_results_2024 mr)::numeric,2) as party_vote_share
+from maha_results_2024
+group by party
+order by party_vote_share desc;
+
+-- 23.	Swing Analysis Between Parties:
+-- Compare the vote difference between the top two parties in each constituency.
+
+with ranked_cte as (
+	select *,
+		dense_rank() over(partition by constituency_no order by total_votes desc) as rnk
+	from maha_results_2024 mr
+)
+select 
+	rc1.constituency_no,
+	rc1.constituency_name,
+	rc1.party as party1,
+	rc1.total_votes as party1_total_votes,
+	rc2.party as party2,
+	rc2.total_votes as party2_total_votes,
+	rc1.total_votes - rc2.total_votes as difference_top_2_parties
+from ranked_cte rc1
+join ranked_cte rc2 on rc1.constituency_no = rc2.constituency_no and rc1.rnk = 1 and rc2.rnk = 2
+;
+
+
+-- 24.	Overall Turnout Analysis:
+-- Determine the total voter turnout (EVM_Votes + Postal_Votes) by constituency.
+
+select 
+	constituency_no, constituency_name,
+	sum(evm_votes + postal_votes) as total_votes_turnout
+from maha_results_2024 mr 
+group by constituency_no, constituency_name
+order by constituency_no;
